@@ -1,0 +1,83 @@
+## NOTE 
+for the basic command 
+
+
+remote 
+command 1 
+command 2
+
+cd locationA 
+    config .... 
+
+
+
+```bash 
+
+sudo apt install tree -y 
+pwd 
+cd / # go into root directory 
+
+
+sudo apt install nginx -y 
+# for bettter command experience 
+# omz , fish 
+
+
+# too long don't read 
+#npm install -G tdlr 
+sudo apt install tdlr -y 
+tldr --update 
+tldr docker 
+tdlr tree 
+
+man # manual 
+
+```
+
+
+## For reading and writing file s
+
+```bash 
+cd # change directory 
+mkdir demo-folder 
+cd demo-folder 
+touch demo.conf # create a file 
+more demo.conf # read file in progress mode 
+cat demo.conf # read all content 
+less demo.conf 
+head demo.conf 
+tail demo.conf 
+
+
+vim demo.conf 
+# press "i" -> insert ( for writing the data )
+# press "esc" -> type " :wq " + enter ( save and exit )
+
+
+nano demo.conf 
+# Control + O : write 
+# Control + X : exit 
+```
+
+
+
+### SETUP OMZ 
+> Goals: userfriedly terminal setup 
+- syntax hightlighting 
+- autosuggestion 
+
+```bash 
+sudo apt install zsh -y
+# installing the omz for the ubuntu
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
+
+
+
+vim ~/.zshrc
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
+
+```
