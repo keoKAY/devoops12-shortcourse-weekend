@@ -135,4 +135,67 @@ rm -f # force delete file
 cp <source> <dest> 
 # copy the whole folder , and store it inside dest 
 cp -r <folder> <dest> 
+cp -r --verbose <folder> <dest> 
+
+
+curl wttr.in 
+sudo apt install nginx -y 
+curl localhost:80 
+
+
+df -h # disk usage 
+free -h # to view ram 
+htop # view process / resource (cpu, ram, running tasks)
+ps aux 
+```
+
+
+## Service related command 
+```bash 
+service service-name <verb> 
+service nginx status 
+
+
+systemctl <verb> service-name 
+systemctl status nginx 
+systemctl restart nginx 
+systemctl start nginx 
+systemctl stop nginx 
+systemctl enable nginx # auto-start the service 
+
+# to stoop nginx service 
+sudo systemctl disable nginx 
+sudo systemctl stop nginx 
+curl localhost 
+sudo systemctl start nginx 
+curl localhost 
+```
+
+
+
+### User Management 
+```bash 
+useradd # normaly used in script 
+sudo useradd batman 
+# customize user a little bit more 
+sudo adduser --create-home --shell /bin/bash batman
+
+
+adduser # utilities command: provide more user-friendly usage 
+sudo adduser superman 
+
+
+# Switch account to perform different tasks 
+su 
+
+# keep the current directory , only change user account
+su username 
+# fresh , full logoin ( start the user dir )
+su - username 
+whoami # show the current login user 
+
+# sudoer change the password for other user 
+sudo passwd username 
+# if user need to change thier own pass 
+passwd 
 ```
