@@ -44,3 +44,14 @@ sysctl -n hw.physicalcpu
 # for more informatioin 
 system_profiler SPHardwareDataType
 ```
+
+### Reviews 
+- Keywords in devops 
+- Prepare environment for testing / learning server (ubuntu)
+- Setup environment 
+    - vagrant (virtual env )
+    - virtualbox / vmware  
+- vagrant 
+    - find the lightweight vm box ( os ) based on configuration file `Vagrantfile` 
+    - testing / validation tasks before putting it on production 
+    - ex. kafka cluster 

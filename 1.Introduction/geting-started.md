@@ -75,9 +75,64 @@ git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugi
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
 
 
-
+# when working with shell 
+# .bashrc -> configuration for bash shell 
+# .zshrc -> configuration for z shell 
 vim ~/.zshrc
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
 
 
+```
+
+### basic 
+
+```bash 
+sudo snap install tldr 
+cd folder_name 
+cd .. # move out from the folder 
+cd # move to the user's home directory 
+
+mkdir folder_name
+touch config.conf
+vim filename.md 
+
+# read file 
+cat 
+more 
+less 
+head 
+tail 
+
+# list all users 
+sudo cat /etc/passwd 
+sudo more /etc/passwd
+
+# views logs / errors 
+sudo head /etc/passwd 
+sudo tail /etc/passwd
+sudo head -n 5 /etc/passwd 
+# sudo awk , sed 
+
+# sudo apt install vim -y 
+vim 
+sudo vim filename.txt 
+# when you forgot the sudo prefix after edit the content
+:w !sudo tee %
+
+
+nano 
+# Ctrl + O + Enter key = WRite 
+# Ctrl + X = Exit 
+
+
+
+mv <source> <dest> 
+rm -rf [folder|file]
+rmdir # delete directory 
+rm # delete file 
+rm -f # force delete file 
+
+cp <source> <dest> 
+# copy the whole folder , and store it inside dest 
+cp -r <folder> <dest> 
 ```
