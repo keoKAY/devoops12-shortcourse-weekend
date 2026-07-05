@@ -35,3 +35,12 @@ vagrant reload --provision
 # window / ubuntu 
 vagrant init ubuntu/jammy64
 ```
+- Checking the number of cpus 
+```bash 
+# checking on the macos 
+sysctl -n hw.logicalcpu
+sysctl -n hw.physicalcpu
+
+# for more informatioin 
+system_profiler SPHardwareDataType
+```
