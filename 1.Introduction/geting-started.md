@@ -174,11 +174,12 @@ curl localhost
 
 
 ### User Management 
+1. Creating and switching the users 
 ```bash 
 useradd # normaly used in script 
 sudo useradd batman 
 # customize user a little bit more 
-sudo adduser --create-home --shell /bin/bash batman
+sudo useradd --create-home --shell /bin/bash batman
 
 
 adduser # utilities command: provide more user-friendly usage 
@@ -199,3 +200,85 @@ sudo passwd username
 # if user need to change thier own pass 
 passwd 
 ```
+2. Deleting user and backing up data 
+```bash 
+sudo deluser <username> 
+
+# deep clean 
+sudo deluser --remove-all-files username 
+sudo deluser --remove-home username # /home/username
+
+# delete the user , but also backup their data 
+sudo deluser \
+    --backup-to /home/vagrant \
+    --remove-home superman
+
+
+
+# User Modification 
+# can be use to change id , username 
+
+# add user to specific group 
+usermod -aG <group> <user> 
+
+sudo usermod -aG sudo superman 
+sudo usermod -aG docker vagrant 
+sudo usermod -aG docker $(USER)
+
+
+
+
+# for working with group 
+groupadd 
+groupmod 
+delgroup 
+
+# list to see permission and ownership 
+ls -lrt 
+ll 
+# link 
+
+
+~ = /home/vagrant 
+cd ~/folderA   = cd /home/vagrant/folderA 
+
+.
+├── folderA
+│   ├── configuration.txt
+│   ├── getting-started.md
+│   └── sample.conf
+├── folderB
+│   ├── configuration.txt
+│   ├── getting-started.md
+│   └── sample.conf -> /home/vagrant/1.basic-server/folderA/sample.conf
+└── getting-started.md
+
+ln -s  ~/1.basic-server/folderA/sample.conf ~/1.basic-server/folderB
+
+
+
+# script-demo.sh
+# 7=rwx -> user 
+# 6=rw- -> group
+# 4=r-- -> other
+echo "hello world" 
+chmod 777 script-demo.sh
+chmod 764 script-demo.sh 
+chmod u=rwx,g-x,o=r script-demo.sh 
+
+
+# change ownership 
+# change user ownship 
+sudo chown user: script-demo.sh 
+# change group ownership 
+sudo chown :group script-demo.sh 
+# change user and group 
+sudo chown user:group script-demo.sh 
+sudo chown -R user:group folder/ 
+```
+
+RBAC -> kubernetes  
+
+## Next session 
+- Cusotmize the privilege of sudoers user 
+- for specific script required sudo , for userA , no need to ask for sudo password 
