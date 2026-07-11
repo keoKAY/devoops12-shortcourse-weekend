@@ -282,3 +282,35 @@ RBAC -> kubernetes
 ## Next session 
 - Cusotmize the privilege of sudoers user 
 - for specific script required sudo , for userA , no need to ask for sudo password 
+
+
+```bash 
+sudo useradd --create-home \
+    --shell /bin/bash superman
+
+# change password for user superman 
+sudo passwd superman 
+sudo su - superman
+su - superman # need to type password
+
+# add user to specfic group 
+sudo usermod -aG sudo superman 
+# id , group ->  superman will sudo member 
+
+sudo command # system will projmt for password to run command
+
+sudo usermod -aG <group> <username> 
+sudo usermod -aG group $USER 
+
+
+
+# user : vagrant 
+sudo visudo # to open the sudo configuration file 
+# to save the documents 
+# Ctrl+ O + Enter 
+# Ctrl + x 
+
+superman ALL=(ALL:ALL) NOPASSWD:ALL
+# superman can run as all user and all group 
+# and able to run any command without any password
+ ```
