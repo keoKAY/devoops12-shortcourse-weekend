@@ -1,13 +1,13 @@
 
 
-
+## NOTE 
 Automate tasks on linux server 
 1. Shellscripts 
     - collection of commands
     - programming language features 
         - condition , variables, functions , loop...
 2. Ansible ( playbook )
-
+    
 
 
 echo "hello world" > file-demo.txt 
