@@ -13,11 +13,22 @@ spec:
         app: {{ .Values.appName.app }}-app
     spec:
       containers:
-      - name: myapp
-        image: <Image>
+      {{- with .Values.container }}
+      - name: {{ .name }}
+        image: {{ .image }}
+        env: 
+        {{- range .env }}
+          - name: {{ .name }} 
+            value: {{ .value }}
+        {{- end }}
+        volumeMounts: 
+          {{- toYaml .volumeMounts | nindent 9 }}
         resources:
           limits:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: <Port>
+        - containerPort: {{ .port }}
+      {{- end }}
+    volumes: 
+      {{- toYaml  .Values.container.volumes | nindent 6}}

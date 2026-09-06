@@ -24,7 +24,12 @@ container:
   volumeMounts: 
   - name: my-spring-vol 
     mountPath: /app/src/main/resources/images
+  - name: file-upload-vol
+    mountPath: /app/src/main/resources/images 
   volumes: 
   - name: my-spring-vol 
+    persistentVolumeClaim: 
+      claimName: spring-nfs-pvc-external
+  - name: file-upload-vol 
     persistentVolumeClaim: 
       claimName: spring-nfs-pvc-external
