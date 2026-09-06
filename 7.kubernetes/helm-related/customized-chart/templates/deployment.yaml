@@ -4,25 +4,27 @@ metadata:
   name: {{ .Values.appName.app }}-dpl
 spec:
   replicas: {{ .Values.replicas }}
-  selector:
-    matchLabels:
-      app: {{ .Values.appName.app }}-app
-  template:
-    metadata:
-      labels:
-        app: {{ .Values.appName.app }}-app
+  {{- include "selector-template" . }}
     spec:
+      {{- if .Values.affinity }}
+      affinity: 
+      {{- toYaml .Values.affinity | nindent 7}}
+      {{- end }}
       containers:
       {{- with .Values.container }}
       - name: {{ .name }}
         image: {{ .image }}
+        {{- if .env }}
         env: 
         {{- range .env }}
           - name: {{ .name }} 
             value: {{ .value }}
         {{- end }}
+        {{- end }}
+        {{- if .volumeMounts }}
         volumeMounts: 
           {{- toYaml .volumeMounts | nindent 9 }}
+        {{- end }}
         resources:
           limits:
             memory: "128Mi"
