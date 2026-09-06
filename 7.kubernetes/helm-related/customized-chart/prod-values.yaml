@@ -1,0 +1,30 @@
+appName:
+  app: nginx-prod
+replicas: 4
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: node-type
+              operator: In
+              values:
+                - master
+container:
+  name: nginx-cont
+  image: nginx:1.22.1
+  port: 80
+  env: 
+    - name: POSTGRES_USER
+      value: postgres-prod
+    - name: POSTGRES_PASSWORD
+      value: postgres_123
+    - name: POSTGRES_DATABASE
+      value: prod_db
+  volumeMounts: 
+  - name: my-spring-vol 
+    mountPath: /app/src/main/resources/images
+  volumes: 
+  - name: my-spring-vol 
+    persistentVolumeClaim: 
+      claimName: spring-nfs-pvc-external

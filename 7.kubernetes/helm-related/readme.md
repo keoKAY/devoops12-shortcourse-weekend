@@ -32,3 +32,28 @@ helm install reactjs-release nginx-chart \
 helm install reactjs-release nginx-chart \
     --values=nginx-chart/prod-values.yaml 
 ```
+
+
+```bash 
+helm package nginx-chart 
+
+# you can release the new app using the zip file 
+helm install nginx-release nginx-chart-0.1.1.tgz
+helm upgrade nginx-release \
+    nginx-chart-0.1.1.tgz \
+    --values=prod-values.yaml 
+
+
+helm repo list 
+helm repo update 
+helm repo list 
+
+helm repo remove <repo-name>
+```
+
+
+### CUSTOMIZING YOUR OWN CHART 
+```bash 
+helm create customized-chart
+ 
+```
