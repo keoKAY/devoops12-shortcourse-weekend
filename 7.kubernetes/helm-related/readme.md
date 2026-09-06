@@ -17,4 +17,18 @@ helm upgrade nginx-release nginx-chart --install
 
 helm history nginx-release 
 helm rollback nginx-release <revision-id>
+
+# render the manifest values of the  chart 
+helm template nginx-chart 
+helm template nginx-chart --values=prod-values.yaml 
+
+
+
+# release service for specific env 
+helm install reactjs-release nginx-chart \
+    --values=prod-values.yaml
+
+# if you put the prod-values.yaml file inside the nginx-chart     
+helm install reactjs-release nginx-chart \
+    --values=nginx-chart/prod-values.yaml 
 ```
