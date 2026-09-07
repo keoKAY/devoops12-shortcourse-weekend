@@ -234,3 +234,225 @@ Envoy
           retry
 ```
 > Application doens't need to retries itself. 
+
+
+### Timeout 
+if the backend take longer than 3s , the request will become timeout 
+```yaml 
+http:
+  - timeout: 3s
+
+    route:
+      - destination:
+          host: product
+          subset: v1
+```
+> Preventing the request to hanging forever 
+
+### Fault Injections 
+> Useful for testing the microservices 
+FOr example, artifically adding the delay for 20% of the request 
+```yaml 
+http:
+  - fault:
+      delay:
+        percentage:
+          value: 20
+        fixedDelay: 5s
+
+    route:
+      - destination:
+          host: product
+          subset: v1
+```
+Meaning: 
+```bash
+100 requests
+
+80 requests -> normal
+20 requests -> delayed 5 seconds
+```
+You can test whether the frontend handles slow dependencies correctly.
+You can also inject HTTP errors:
+```bash
+fault:
+  abort:
+    percentage:
+      value: 10
+    httpStatus: 500
+```
+Meaning 
+```bash
+10% -> HTTP 500
+90% -> normal
+```
+> useful for resilient testings. 
+### mTLS
+
+Another major service-mesh feature is service-to-service encryption.
+
+Without mTLS:
+```bash
+frontend --------HTTP--------> backend
+```
+With Istio 
+```bash
+frontend Envoy
+      |
+      | encrypted mTLS
+      |
+backend Envoy
+```
+Application continue to use 
+```bash
+curl http://product 
+```
+> while Istio encrypts the network traffic underneath.
+
+We can enforce the strict mTLS 
+```yaml
+apiVersion: security.istio.io/v1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: mesh-demo
+
+spec:
+  mtls:
+    mode: STRICT
+```
+
+### Authorization 
+Suppose we have 
+```bash
+frontend
+backend
+postgres
+```
+
+We want : 
+```bash
+frontend -> backend      allowed
+frontend -> postgres     denied
+
+backend -> postgres      allowed
+```
+Istio can enforce service identity policies.
+
+For example, only allow requests from a specific service account.
+
+Conceptually:
+```bash
+Frontend ServiceAccount
+         |
+         | allowed
+         v
+      Backend
+         |
+         | allowed
+         v
+      Postgres
+
+
+random-pod
+   |
+   X
+ Backend
+```
+This is one reason Kubernetes ServiceAccount becomes much more important when learning service mesh.
+
+### ServiceAccount + ServiceMesh 
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: frontend-sa
+  namespace: mesh-demo
+
+```
+- frontend 
+```yaml 
+spec:
+  serviceAccountName: frontend-sa
+  ```
+Istio can use that workload identity.
+
+Instead of saying:
+```bash
+allow IP 10.42.2.15
+```
+you can effectively create policies based on:
+```bash
+allow identity:
+frontend-sa
+```
+This is much safer because Pod IP addresses change constantly.
+
+
+
+### Alerts and Monitoring 
+A service mesh can automatically collect information like:
+```bash
+frontend -> product
+requests/sec: 120
+
+success rate: 99.2%
+
+P50 latency: 30ms
+P95 latency: 170ms
+P99 latency: 420ms
+
+HTTP 200: 98%
+HTTP 500: 2%
+```
+Common tools around istios 
+```bash 
+Prometheus
+Grafana
+Jaeger
+Kiali
+```
+Kiali is especially useful for teaching because it can visually show:
+```bash
+                    ┌── product-v1
+frontend ─ product ─┤
+                    └── product-v2
+```
+> with traffic percentage and errors 
+
+### K8s object vs istio object
+- kubernetes object 
+```bash
+Deployment
+Service
+ConfigMap
+Secret
+Ingress
+NetworkPolicy
+ServiceAccount
+```
+- istio object 
+```bash
+VirtualService
+DestinationRule
+Gateway
+PeerAuthentication
+AuthorizationPolicy
+ServiceEntry
+```
+useful mental models
+```bash
+Kubernetes
+    |
+    | creates applications
+    |
+Deployments / Pods / Services
+    |
+    v
+Service Mesh
+    |
+    | controls communication
+    |
+Routing / Security / Resilience / Observability
+```
+![illustration in headlamp for the example workflow](image-2.png)
