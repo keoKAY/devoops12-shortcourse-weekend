@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy 
+metadata: 
+  name: postgres-policy 
+  namespace: default 
+
+spec: 
+  podSelector:
+    matchLabels:
+      app: postgres 
+  policyTypes: 
+    - Ingress 
+  ingress: 
+    - from : 
+      - podSelector:
+          matchLabels:
+            app: backend 
+      ports: 
+        - protocol: TCP 
+          port: 5432 
+
+## NOW: 
+## backend -> postgres:5432 (allowed)
+## frontend -> postgres:5432 (block)
+## random pod -> postgres:5432 (block)

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-dpl
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres-app
+        image: postgres
+        ports:
+        - containerPort: 5432
+        env: 
+          - name: POSTGRES_DATABASE
+            value: studentdb
+          - name: POSTGRES_PASSWORD
+            value: passtesting
+        # envFrom: 
+        #   - configMapRef:
+        #       name: postgres-configmap 
+        #   -  secretRef:
+        #        name: postgres-secret
