@@ -64,3 +64,9 @@ spec:
 
 ```
 ![image-shown-with-one-to-use](image-1.png)
+
+![shown-kube-systems](image-2.png)
+
+- Illustration to see component in the node 
+![worker-01-note](image-3.png)
+![master-01-note](image-4.png)
