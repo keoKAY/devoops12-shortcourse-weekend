@@ -1,5 +1,10 @@
 ```bash 
 export PATH=$PWD/bin:$PATH
+
+istioctl version 
+client version: 1.31.0
+control plane version: 1.31.0
+data plane version: 1.31.0 (8 proxies)
 ```
 
 - simulate the traffic 
