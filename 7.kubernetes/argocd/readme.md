@@ -72,6 +72,12 @@ kubectl edit svc argocd-server -n argocd
 ```
 
 ## Solutions 
+> Solution from Traefik side 
+We only need to services that be used from traefik to allow the communication for the argocd server: 
+1. **ServerTransport**: in order to skip SSL verification when argocd talk to its own services (internally )
+2. **IngressRoute** : same as kubernetes ingress, but it is a traefik object for `ingress + server transport` option 
+
+
 The anntoation must sometimes be placed on Service , not on the ingress 
 Depends on the traefik version v2.x and v3.x , 
 the `servertransport` annotation **must be attached direclty to kubernetes Service resource** rather than the Ingress resource, because Traefik treats the backend transport properties as part of the Service object logic. 
@@ -91,9 +97,40 @@ spec:
 ```
 
 
+### Solution: 
+  - patch argocd `server.insecure=true` inside the argocd configmap 
+
+> Set Argo CD to insecure mode internally:
+```bash
+
+kubectl patch configmap argocd-cmd-params-cm \
+-n argocd \
+--type merge \
+-p '{"data":{"server.insecure":"true"}}'
+## Find the argocd's password
+kubectl -n argocd get secret argocd-initial-admin-secret \
+-o jsonpath="{.data.password}" | base64 -d && echo
+```
+
 ### Changing the password 
 ```bash
- 
+
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
+```
+
+
+
+## configure webhook: 
+- To allow the immediate update when there is changes push to the gitops , unlike default hat need to wait around 3 mins to detect or pull the new update 
+```bash
+kubectl edit secret argocd-secret -n argocd
+
+# below the data: 
+
+echo -n "your-secret-pass" | base64 
+# github.webhook.secret: <base54-data>
+
+# to save and quit after we add the update 
+:wq
 ```
