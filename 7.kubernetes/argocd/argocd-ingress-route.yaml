@@ -14,8 +14,9 @@ spec:
         - name: argocd-server
           port: 443
           scheme: https
-          serversTransport: argocd-transport@kubernetescrd
+          serversTransport: argocd-transport
+          #serversTransport: argocd-transport@kubernetescrd
 
   tls:
-    secretName: argocd-tls
-    #secretName: argocd-tls
+    #secretName: argocd-secret
+    secretName: argocd-secret
